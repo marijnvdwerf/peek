@@ -1,5 +1,6 @@
 /vendor/
 /node_modules/
+.phpunit.result.cache
 
 public/bundle.js*
 public/bundle.css
