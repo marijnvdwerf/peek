@@ -2,6 +2,7 @@
     "name": "marijnvdwerf/peek",
     "type": "project",
     "require": {
+        "php-di/php-di": "^6.3",
         "slim/psr7": "^1.5",
         "slim/slim": "^4.8",
         "slim/twig-view": "^3.2"

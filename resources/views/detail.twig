@@ -1,0 +1,24 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+    <code>{{ article.article_number }}</code>
+    <h1>{{ article.title }}</h1>
+    <p>{{ article.description }}</p>
+
+    {% if article.price_campaign %}
+        <p>
+            {{ article.price_campaign }}
+            <del>{{ article.price }}</del>
+        {{ article.currency }}
+        </p>
+    {% else %}
+        <p>
+            {{ article.price }}
+            {{ article.currency }}
+        </p>
+    {% endif %}
+
+    <p>{{ article.in_stock }}</p>
+    <p>{{ article.category }}</p>
+    <p>{{ article.url }}</p>
+{% endblock %}

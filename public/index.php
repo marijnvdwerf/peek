@@ -1,5 +1,6 @@
 <?php
 
+use DI\ContainerBuilder;
 use Marijnvdwerf\Peek\ShutdownHandler;
 use Marijnvdwerf\Peek\TwigErrorRenderer;
 use Slim\Factory\AppFactory;
@@ -17,6 +18,13 @@ $logError = false;
 $logErrorDetails = false;
 $displayErrorDetails = true;
 
+$containerBuilder = new ContainerBuilder();
+
+// Set up repositories
+$repositories = require ROOT . '/app/repositories.php';
+$repositories($containerBuilder);
+
+AppFactory::setContainer($containerBuilder->build());
 
 $app = AppFactory::create();
 $callableResolver = $app->getCallableResolver();
