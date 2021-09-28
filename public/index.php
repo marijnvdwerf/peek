@@ -21,6 +21,9 @@ $displayErrorDetails = true;
 $app = AppFactory::create();
 $callableResolver = $app->getCallableResolver();
 
+// Register routes
+$routes = require ROOT . '/app/routes.php';
+$routes($app);
 
 $twig = Twig::create(ROOT . '/resources/views', ['cache' => false, 'debug' => true]);
 $twig->addExtension(new \Twig\Extension\DebugExtension());
