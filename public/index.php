@@ -1,12 +1,17 @@
 <?php
 
 use Marijnvdwerf\Peek\ShutdownHandler;
+use Marijnvdwerf\Peek\TwigErrorRenderer;
 use Slim\Factory\AppFactory;
 use Slim\Factory\ServerRequestCreatorFactory;
 use Slim\Handlers\ErrorHandler;
 use Slim\ResponseEmitter;
+use Slim\Views\Twig;
+use Slim\Views\TwigMiddleware;
 
-require __DIR__ . '/../vendor/autoload.php';
+define('ROOT', __DIR__ . '/..');
+
+require ROOT . '/vendor/autoload.php';
 
 $logError = false;
 $logErrorDetails = false;
@@ -16,6 +21,11 @@ $displayErrorDetails = true;
 $app = AppFactory::create();
 $callableResolver = $app->getCallableResolver();
 
+
+$twig = Twig::create(ROOT . '/resources/views', ['cache' => false, 'debug' => true]);
+$twig->addExtension(new \Twig\Extension\DebugExtension());
+$app->add(TwigMiddleware::create($app, $twig));
+
 // Create Request object from globals
 $serverRequestCreator = ServerRequestCreatorFactory::create();
 $request = $serverRequestCreator->createServerRequestFromGlobals();
@@ -23,6 +33,7 @@ $request = $serverRequestCreator->createServerRequestFromGlobals();
 // Create Error Handler
 $responseFactory = $app->getResponseFactory();
 $errorHandler = new ErrorHandler($callableResolver, $responseFactory);
+$errorHandler->registerErrorRenderer('text/html', new TwigErrorRenderer($twig));
 
 // Create Shutdown Handler
 $shutdownHandler = new ShutdownHandler($request, $errorHandler, $displayErrorDetails);
