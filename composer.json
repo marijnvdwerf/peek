@@ -1,0 +1,25 @@
+{
+    "name": "marijnvdwerf/peek",
+    "type": "project",
+    "require": {
+        "slim/slim": "^4.8",
+        "slim/psr7": "^1.5"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Marijnvdwerf\\Peek\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "authors": [
+        {
+            "name": "Marijn van der Werf",
+            "email": "marijn.vanderwerf@gmail.com"
+        }
+    ]
+}
