@@ -8,7 +8,11 @@ use Slim\Views\Twig;
 
 return function (App $app) {
     $app->get('/', function (Request $request, Response $response) {
+        $articleRepo = new \Marijnvdwerf\Peek\ArticleRepository();
+        $articles = $articleRepo->all();
         $twig = Twig::fromRequest($request);
-        return $twig->render($response, 'index.twig');
+        return $twig->render($response, 'index.twig', [
+            'articles' => $articles
+        ]);
     });
 };
