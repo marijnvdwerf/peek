@@ -1,17 +1,18 @@
-<div>
-    <img src="/products/{{ article.article_number }}/media/1"/>
-    <h1>{{ article.title }}</h1>
-    <p>{{ article.description }}</p>
-    <p>{{ article.article_number }}</p>
+<a href="/products/{{ article.article_number }}" class="transform translate-y-0 hover:-translate-y-1 transition-transform">
+    <img src="/products/{{ article.article_number }}/media/1" class="bg-white rounded-md shadow-sm"/>
+    <div class="flex flex-row pt-2">
+        <div class="flex-grow">
+            <h1 class="text-sm text-gray-600">{{ article.title }}</h1>
+        </div>
+        <div class="flex-none">
+            {% if article.price_campaign %}
+                <del>{{ article.price|format_price(article.currency) }}</del>
+                <p>{{ article.price_campaign|format_price(article.currency) }}</p>
+            {% else %}
+                <p>{{ article.price|format_price(article.currency) }}</p>
+            {% endif %}
+        </div>
+    </div>
 
-    {% if article.price_campaign %}
-        <del>{{ article.price|format_price(article.currency) }}</del>
-        <p>{{ article.price_campaign|format_price(article.currency) }}</p>
-    {% else %}
-        <p>{{ article.price|format_price(article.currency) }}</p>
-    {% endif %}
 
-    <p>{{ article.in_stock }}</p>
-    <p>{{ article.category }}</p>
-    <p>{{ article.url }}</p>
-</div>
+</a>

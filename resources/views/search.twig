@@ -6,11 +6,11 @@
         <input type="submit" value="Search">
     </form>
 
-    <div class="max-w-screen-md mx-auto">
+    <div class="container lg:max-w-screen-lg mx-auto">
         {% if articles %}
             <p>Found <strong>{{ articles|length }}</strong> items:</p>
 
-            <div class="grid grid-cols-3">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                 {% for article in articles %}
                     {% include 'partials/article.twig' with {'article': article} only %}
                 {% endfor %}
