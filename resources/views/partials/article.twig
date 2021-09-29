@@ -2,9 +2,14 @@
     <h1>{{ article.title }}</h1>
     <p>{{ article.description }}</p>
     <p>{{ article.article_number }}</p>
-    <p>{{ article.price }}</p>
-    <p>{{ article.price_campaign }}</p>
-    <p>{{ article.currency }}</p>
+
+    {% if article.price_campaign %}
+        <del>{{ article.price|format_price(article.currency) }}</del>
+        <p>{{ article.price_campaign|format_price(article.currency) }}</p>
+    {% else %}
+        <p>{{ article.price|format_price(article.currency) }}</p>
+    {% endif %}
+
     <p>{{ article.in_stock }}</p>
     <p>{{ article.category }}</p>
     <p>{{ article.url }}</p>

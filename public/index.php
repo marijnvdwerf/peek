@@ -34,7 +34,8 @@ $routes = require ROOT . '/app/routes.php';
 $routes($app);
 
 $twig = Twig::create(ROOT . '/resources/views', ['cache' => false, 'debug' => true]);
-$twig->addExtension(new \Twig\Extension\DebugExtension());
+$extensions = require ROOT . '/app/extensions.php';
+$extensions($twig);
 $app->add(TwigMiddleware::create($app, $twig));
 
 // Create Request object from globals

@@ -6,13 +6,17 @@
         <input type="submit" value="Search">
     </form>
 
-    {% if articles %}
-        <p>Found <strong>{{ articles|length }}</strong> items:</p>
+    <div class="max-w-screen-md mx-auto">
+        {% if articles %}
+            <p>Found <strong>{{ articles|length }}</strong> items:</p>
 
-        {% for article in articles %}
-            {% include 'partials/article.twig' with {'article': article} only %}
-        {% endfor %}
-    {% else %}
-        <p>Sorry! No items matched your search.</p>
-    {% endif %}
+            <div class="grid grid-cols-3">
+                {% for article in articles %}
+                    {% include 'partials/article.twig' with {'article': article} only %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Sorry! No items matched your search.</p>
+        {% endif %}
+    </div>
 {% endblock %}
