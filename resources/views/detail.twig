@@ -1,24 +1,37 @@
 {% extends 'base.twig' %}
 
 {% block content %}
-    <code>{{ article.article_number }}</code>
-    <h1>{{ article.title }}</h1>
-    <p>{{ article.description }}</p>
+    <div class="container lg:max-w-screen-lg mx-auto">
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <img src="/products/{{ article.article_number }}/media/1" class="bg-white rounded-md w-full"/>
+            </div>
 
-    {% if article.price_campaign %}
-        <p>
-            {{ article.price_campaign }}
-            <del>{{ article.price }}</del>
-        {{ article.currency }}
-        </p>
-    {% else %}
-        <p>
-            {{ article.price }}
-            {{ article.currency }}
-        </p>
-    {% endif %}
+            <div>
+                <code class="block -mb-2">{{ article.article_number }}</code>
+                <h1 class="text-5xl font-black leading-tight">{{ article.title }}</h1>
 
-    <p>{{ article.in_stock }}</p>
-    <p>{{ article.category }}</p>
-    <p>{{ article.url }}</p>
+                {% if article.description %}
+                    <p class="text-lg">{{ article.description }}</p>
+                {% endif %}
+
+                <div class="mt-4">
+                    {% if article.price_campaign %}
+                        <p>
+                            {{ article.price_campaign|format_price(article.currency) }}
+                            <del>{{ article.price|format_price(article.currency) }}</del>
+                        </p>
+                    {% else %}
+                        <p>
+                            {{ article.price|format_price(article.currency) }}
+                        </p>
+                    {% endif %}
+                </div>
+
+                <a href="{{ article.url|escape('html_attr') }}"
+                   class="block bg-yellow-400 text-gray-700 rounded-md font-medium p-3 mt-4 text-center">Buy now</a>
+            </div>
+        </div>
+
+    </div>
 {% endblock %}
