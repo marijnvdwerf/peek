@@ -1,14 +1,17 @@
 {% extends 'base.twig' %}
 
 {% block content %}
-    <form action="/search">
-        <input type="search" name="q" value="">
-        <input type="submit" value="Search">
+    <form action="/search" class="bg-gray-500">
+        <div class="max-w-screen-md mx-auto px-4 py-20">
+            <div class="flex flex-row">
+                <input type="search" name="q" value=""
+                       placeholder="Search..."
+                       class="w-full border border-transparent rounded-md py-3 px-4 text-lg font-medium focus:outline-none focus:ring-2 focus:ring-gray-600">
+                <input type="submit" value="Search"
+                       class="ml-4 bg-yellow-300 rounded-md text-lg text-base font-medium text-gray-600 py-3 px-8">
+            </div>
+        </div>
     </form>
-    <button type="submit"
-            class="mt-10 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-        Button
-    </button>
 
     <div class="container lg:max-w-screen-lg mx-auto">
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
