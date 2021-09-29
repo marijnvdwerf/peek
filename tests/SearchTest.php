@@ -30,4 +30,15 @@ class SearchTest extends TestCase
         $this->assertIsArray($results);
         $this->assertEmpty($results);
     }
+
+    public function testSimpleResult()
+    {
+        $engine = new SearchEngine($this->createArticles());
+
+        $results = $engine->search('Google');
+        $this->assertIsArray($results);
+        $this->assertCount(1, $results);
+        $this->assertInstanceOf(Article::class, $results[0]);
+        $this->assertEquals("Google Chromecast", $results[0]->title);
+    }
 }
