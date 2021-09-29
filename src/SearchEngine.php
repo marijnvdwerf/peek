@@ -20,16 +20,25 @@ class SearchEngine
         return false;
     }
 
-    public function search(string $token)
+    public function searchForToken($articles, string $token)
     {
         $out = [];
 
-        foreach ($this->articles as $article) {
+        foreach ($articles as $article) {
             if ($this->matches($article, $token)) {
                 $out[] = $article;
             }
         }
 
         return $out;
+    }
+
+    public function search(string ...$tokens)
+    {
+        $articles = $this->articles;
+        foreach ($tokens as $token) {
+            $articles = $this->searchForToken($articles, $token);
+        }
+        return $articles;
     }
 }

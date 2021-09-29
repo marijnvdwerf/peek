@@ -18,6 +18,7 @@ class SearchTest extends TestCase
     {
         return [
             $this->createArticle('Razer BlackWidow V3, gaming-tangentbord'),
+            $this->createArticle('Razer Blade 15'),
             $this->createArticle('Google Chromecast')
         ];
     }
@@ -51,5 +52,16 @@ class SearchTest extends TestCase
         $this->assertCount(1, $results);
         $this->assertInstanceOf(Article::class, $results[0]);
         $this->assertEquals("Google Chromecast", $results[0]->title);
+    }
+
+    public function testMultipleTokens()
+    {
+        $engine = new SearchEngine($this->createArticles());
+
+        $results = $engine->search('Razer', 'V3');
+        $this->assertIsArray($results);
+        $this->assertCount(1, $results);
+        $this->assertInstanceOf(Article::class, $results[0]);
+        $this->assertEquals("Razer BlackWidow V3, gaming-tangentbord", $results[0]->title);
     }
 }
