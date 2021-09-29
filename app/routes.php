@@ -17,7 +17,7 @@ return function (App $app) {
         $articleRepo = $this->get(ArticleRepository::class);
         $articles = $articleRepo->all();
         $articles = array_filter($articles, fn(Article $article) => $article->getDiscount());
-        usort($articles, function(Article$lhs, Article $rhs) {
+        usort($articles, function (Article $lhs, Article $rhs) {
             return abs($rhs->getDiscount()) <=> abs($lhs->getDiscount());
         });
         $twig = Twig::fromRequest($request);
