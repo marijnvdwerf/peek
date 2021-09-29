@@ -2,7 +2,9 @@
 declare(strict_types=1);
 
 use Fig\Http\Message\StatusCodeInterface;
+use Marijnvdwerf\Peek\Article;
 use Marijnvdwerf\Peek\ArticleRepository;
+use Marijnvdwerf\Peek\SearchEngine;
 use Slim\App;
 use Slim\Exception\HttpNotFoundException;
 use Slim\Psr7\Request;
@@ -13,6 +15,10 @@ return function (App $app) {
     $app->get('/', function (Request $request, Response $response) {
         $articleRepo = $this->get(ArticleRepository::class);
         $articles = $articleRepo->all();
+        $articles = array_filter($articles, fn(Article $article) => $article->getDiscount());
+        usort($articles, function(Article$lhs, Article $rhs) {
+            return abs($rhs->getDiscount()) <=> abs($lhs->getDiscount());
+        });
         $twig = Twig::fromRequest($request);
         return $twig->render($response, 'index.twig', [
             'articles' => $articles
@@ -37,7 +43,7 @@ return function (App $app) {
         }
 
         $articleRepo = $this->get(ArticleRepository::class);
-        $engine = new \Marijnvdwerf\Peek\SearchEngine($articleRepo->all());
+        $engine = new SearchEngine($articleRepo->all());
         $articles = $engine->search(...$tokens);
         $twig = Twig::fromRequest($request);
         return $twig->render($response, 'search.twig', [

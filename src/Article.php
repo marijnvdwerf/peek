@@ -24,4 +24,13 @@ class Article
         }
         return $article;
     }
+
+    public function getDiscount()
+    {
+        if ($this->price_campaign === null) {
+            return null;
+        }
+
+        return $this->price_campaign / $this->price - 1;
+    }
 }
