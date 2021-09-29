@@ -14,7 +14,10 @@ class SearchEngine
 
     private function matches(Article $article, string $token): bool
     {
-        if (preg_match('/' . preg_quote($token, '/') . '/iu', $article->title, $token))
+        if (preg_match('/' . preg_quote($token, '/') . '/iu', $article->title))
+            return true;
+
+        if (preg_match('/' . preg_quote($token, '/') . '/iu', $article->description))
             return true;
 
         return false;

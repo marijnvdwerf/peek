@@ -6,10 +6,11 @@ use PHPUnit\Framework\TestCase;
 
 class SearchTest extends TestCase
 {
-    private function createArticle($title): Article
+    private function createArticle($title, $description = null): Article
     {
         $article = new Article();
         $article->title = $title;
+        $article->description = $description;
 
         return $article;
     }
@@ -19,7 +20,7 @@ class SearchTest extends TestCase
         return [
             $this->createArticle('Razer BlackWidow V3, gaming-tangentbord'),
             $this->createArticle('Razer Blade 15'),
-            $this->createArticle('Google Chromecast')
+            $this->createArticle('Google Chromecast', 'Streama från mobilen till TV:n')
         ];
     }
 
@@ -63,5 +64,16 @@ class SearchTest extends TestCase
         $this->assertCount(1, $results);
         $this->assertInstanceOf(Article::class, $results[0]);
         $this->assertEquals("Razer BlackWidow V3, gaming-tangentbord", $results[0]->title);
+    }
+
+    public function testSearchesDescription()
+    {
+        $engine = new SearchEngine($this->createArticles());
+
+        $results = $engine->search('Stream');
+        $this->assertIsArray($results);
+        $this->assertCount(1, $results);
+        $this->assertInstanceOf(Article::class, $results[0]);
+        $this->assertEquals("Google Chromecast", $results[0]->title);
     }
 }
