@@ -1,0 +1,68 @@
+#!/bin/env php
+<?php
+
+use League\Uri\Http;
+
+require '../vendor/autoload.php';
+
+define('ROOT', __DIR__ . '/..');
+
+$articles = json_decode(file_get_contents(ROOT . '/resources/data/articles.json'));
+
+if (!file_exists(ROOT . '/cache/pages')) {
+    mkdir(ROOT . '/cache/pages', recursive: true);
+}
+if (!file_exists(ROOT . '/cache/images')) {
+    mkdir(ROOT . '/cache/images', recursive: true);
+}
+
+foreach ($articles as $article) {
+    $dest = ROOT . '/cache/images/' . $article->article_number . '.jpg';
+    if (file_exists($dest)) {
+        continue;
+    }
+
+    $filename = ROOT . '/cache/pages/' . $article->article_number . '.html';
+    if (!file_exists($filename)) {
+        $data = file_get_contents($article->url);
+        file_put_contents($filename, $data);
+    }
+
+    $doc = new DOMDocument();
+    // Loading HTML using DOMDocument makes a lot of warnings show up. Usually about entities and stuff.
+    // We're not a browser, so we don't need 100% perfect parsing
+    @$doc->loadHTMLFile($filename);
+
+    $xp = new DOMXPath($doc);
+
+    $image = null;
+
+    // First try getting an opengraph image
+    $meta = $xp->query('//meta[@property="og:image"]');
+    if ($meta->length > 0) {
+        /** @var DOMElement $el */
+        $el = $meta->item(0);
+        $image = $el->getAttribute('content');
+    }
+
+    $script = $xp->query('//script[@type="application/ld+json"]');
+    if ($script->length > 0) {
+        /** @var DOMElement $el */
+        $el = $script->item(0);
+        $json = json_decode($el->textContent);
+
+        if (isset($json->image)) {
+            $base = Http::createFromString($article->url);
+            $image = (string)Http::createFromBaseUri($json->image, $base);
+        }
+    }
+
+    if (!$image) {
+        echo "Manually fetch image for " . $article->url . "\n";
+        echo "Save as " . $dest . "\n";
+        continue;
+    }
+
+    $img = file_get_contents($image);
+    file_put_contents($dest, $img);
+}

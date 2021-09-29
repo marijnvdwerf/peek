@@ -2,5 +2,6 @@
 /node_modules/
 .phpunit.result.cache
 
+cache/
 public/bundle.js*
 public/bundle.css
