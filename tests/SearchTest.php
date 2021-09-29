@@ -41,4 +41,15 @@ class SearchTest extends TestCase
         $this->assertInstanceOf(Article::class, $results[0]);
         $this->assertEquals("Google Chromecast", $results[0]->title);
     }
+
+    public function testCaseSensitiveSearch()
+    {
+        $engine = new SearchEngine($this->createArticles());
+
+        $results = $engine->search('gOOGLE');
+        $this->assertIsArray($results);
+        $this->assertCount(1, $results);
+        $this->assertInstanceOf(Article::class, $results[0]);
+        $this->assertEquals("Google Chromecast", $results[0]->title);
+    }
 }
