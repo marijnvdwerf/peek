@@ -1,0 +1,18 @@
+{% extends 'base.twig' %}
+
+{% block content %}
+    <form action="/search">
+        <input type="search" name="q" value="{{ query|escape('html_attr') }}">
+        <input type="submit" value="Search">
+    </form>
+
+    {% if articles %}
+        <p>Found <strong>{{ articles|length }}</strong> items:</p>
+
+        {% for article in articles %}
+            {% include 'partials/article.twig' with {'article': article} only %}
+        {% endfor %}
+    {% else %}
+        <p>Sorry! No items matched your search.</p>
+    {% endif %}
+{% endblock %}

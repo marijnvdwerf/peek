@@ -1,22 +1,16 @@
 {% extends 'base.twig' %}
 
 {% block content %}
+    <form action="/search" >
+        <input type="search" name="q" value="">
+        <input type="submit" value="Search">
+    </form>
     <button type="submit"
             class="mt-10 w-full bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
         Button
     </button>
     {% for article in articles %}
-        <div>
-            <h1>{{ article.title }}</h1>
-            <h1>{{ article.description }}</h1>
-            <h1>{{ article.article_number }}</h1>
-            <h1>{{ article.price }}</h1>
-            <h1>{{ article.price_campaign }}</h1>
-            <h1>{{ article.currency }}</h1>
-            <h1>{{ article.in_stock }}</h1>
-            <h1>{{ article.category }}</h1>
-            <h1>{{ article.url }}</h1>
-        </div>
+        {% include 'partials/article.twig' with {'article': article} only %}
     {% endfor %}
     <script src="bundle.js"></script>
 {% endblock %}
