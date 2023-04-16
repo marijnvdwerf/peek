@@ -11,7 +11,7 @@ class ArticleTest extends TestCase
         $article->price = 100;
         $article->price_campaign = 80;
 
-        $this->assertSame(-0.2, $article->getDiscount());
+        $this->assertEqualsWithDelta(-0.2, $article->getDiscount(), 0.000000001);
     }
 
     public function testCalculateNoDiscount() {

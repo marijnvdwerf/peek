@@ -17,7 +17,7 @@ class SearchEngine
         if (preg_match('/' . preg_quote($token, '/') . '/iu', $article->title))
             return true;
 
-        if (preg_match('/' . preg_quote($token, '/') . '/iu', $article->description))
+        if (preg_match('/' . preg_quote($token, '/') . '/iu', $article->description ?? ''))
             return true;
 
         return false;
